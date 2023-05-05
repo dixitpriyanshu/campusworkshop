@@ -63,9 +63,28 @@ $(document).ready(function () {
         })
        
     });
-    
+    $('#edit-task-btn').click(function () {
+        const tID = $('#task-form-display').attr('taskID');
+        const content = $('#edit-task-modal').find('.form-control').val();
+        console.log("tID",tID)
+        console.log("content",content)
+        $.ajax({
+          type: 'PUT',
+          url: '/update/' + tID,
+          contentType: 'application/json;charset=UTF-8',
+          data: JSON.stringify({
+            'content': content
+          }),
+          success: function (res) {
+            console.log(res.response);
+            location.reload();
+          },
+          error: function () {
+            console.log('Error');
+          }
+        });
+      });
 
-   
     
     
     $('.remove').click(function () {
@@ -91,6 +110,9 @@ $(document).ready(function () {
 
         if (state.text() === "Todo") {
             new_state = "In Progress"
+        }
+        else if (state.text() === "In Progress") {
+            new_state = "Completed"
         }
        
         console.log(new_state)
